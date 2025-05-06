@@ -1,0 +1,5 @@
+"0","NFCeastfavor = NFL[,""team_favorite_id""] == ""PHI"" | NFL[,""team_favorite_id""] == ""NYG"" | NFL[,""team_favorite_id""] == ""DAL"" | NFL[,""team_favorite_id""] == ""WAS"" "
+"0","NFCeastfav = NFL[NFCeastfavor, ]"
+"0","  "
+"0","NFCeastHome = NFL[,""team_home""] == ""Philadelphia Eagles"" | NFL[,""team_home""] == ""New York Giants"" | NFL[,""team_home""] == ""Dallas Cowboys"" | NFL[,""team_home""] == ""Washington Redskins"" | NFL[,""team_home""] == ""Washington Football Team"" | NFL[,""team_home""] == ""Washington Commanders"" | NFL[,""team_away""] == ""Philadelphia Eagles"" | NFL[,""team_away""] == ""New York Giants"" | NFL[,""team_away""] == ""Dallas Cowboys"" | NFL[,""team_away""] == ""Washington Redskins"" | NFL[,""team_away""] == ""Washington Football Team"" | NFL[,""team_away""] == ""Washington Commanders"""
+"0","NFCeast = NFL[NFCeastHome, ]"

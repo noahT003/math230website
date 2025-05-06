@@ -1,0 +1,8 @@
+"0","NFL = read.csv(""spreadspoke_scores.csv"", header = TRUE)"
+"0","attach(NFL)"
+"2","The following object is masked _by_ .GlobalEnv:
+
+    schedule_playoff
+
+"
+"0","library(ggplot2)"

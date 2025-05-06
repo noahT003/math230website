@@ -1,0 +1,5 @@
+"0","ggplot(NFL, aes(y = total_points, x = over_under_line, color = stupidchiefs, shape = stupidchiefs)) +"
+"0","  geom_point()  + ggtitle(""The Chiefs' Betting Black Magic Only Works Half the Time"") +"
+"0","  geom_abline(slope = 1, color = ""red"") + scale_color_manual(values = c(""cyan2"", ""navyblue"")) +"
+"0","  labs(color = ""Teams"") + theme_light() + xlab(""Over-Under Line in a Game"") +"
+"0","  ylab(""Total Points Scored in a Game"") + labs(color = ""Teams"", shape = ""Teams"")"

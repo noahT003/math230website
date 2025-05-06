@@ -1,0 +1,107 @@
+---
+title: "Course Visualizations"
+description: |
+  Previous work I have made in MATH 230. All of these visualizations have been made with RStudio. 
+---
+
+```{r, echo = FALSE}
+library(Lock5Data)
+library(ggplot2)
+library(ggrain)
+data(StudentSurvey)
+attach(StudentSurvey)
+data(CollegeScores)
+load("plate.sizes.RData")
+```
+
+```{r, echo = FALSE}
+library(readr)
+CASchools = read.csv("CASchools.csv", header = TRUE)
+attach(CASchools)
+```
+
+
+![Bucknell Segments](bucknellsegments.png){width=70%}
+
+
+![Orange Breeze](orangebreeze.png){width=70%} 
+
+
+![Distant Diamond](skydiamond.png){width=70%}
+
+
+```{r, echo = FALSE}
+lesscounties = CASchools[county == c("Tulare", "Los Angeles", "Kern"), ] 
+ggplot(lesscounties, aes(x = county, y = income, fill = county)) +
+  geom_rain(alpha = 0.6, cov = "computer") + theme_light() +
+  scale_fill_brewer(palette = "Reds", name = "County") + scale_color_viridis_c(option =  "cividis", name = "Number of Computers in a School") +
+  ggtitle("Rain Cloud Plots of District Average Income (in Thousands of USD) 
+  Grouped by Counties, Where Amount of Computers
+  per School is Scaled") + coord_flip() +
+  xlab("County in California") + ylab("Average District Income (in Thousands of USD)")
+```
+
+**ggrain in Action**\
+For our ggplot Extensions project, I created this graph to showcase mostly everything you can do with the ggrain package. The CASchools dataset was used, which collected data on elementary schools in California. For this visualization, I used the variables income (average district income), computer (number of computers in a school), and county (counties in California). Specifically, for this visualization I restricted the counties to Kern, Los Angeles, and Tulare. We can see many things with this visualization, with it being rain cloud plots divided by county. For instance, In the case of Los Angeles, we can see there is a larger concentration of schools with an average district income of about 14, with one of these schools having a large number of computers (that point is yellow). Additionally, in comparing the schools of Los Angeles and Tulare, we can say that Los Angeles schools have a higher average district income and more computers on average (all of the points for Tulare are dark blue).\
+
+
+<iframe src="https://abby-flynt.shinyapps.io/ConfidenceLevels_Dashboard_Team3/" class="l-screen-inset shaded" height="1000px"></iframe>
+
+**Confidence Intervals Dashboard**\
+For the intro statistics dashboards project, my group created a dashboard on confidence levels. No external datasets were used, and any numbers / distributions can be manipulated by the user. We sought to include as much interaction as possible for we thought this was the best method for users to better understand the subject of confidence levels. We included many of the basic ideas behind confidence levels and hope that those that are struggling in this topic will better appreciate them after going through our dashboard.
+
+```{r, echo = FALSE}
+CollegeData = CollegeScores[complete.cases(CollegeScores), ]
+rm(CollegeScores)
+attach(CollegeData)
+```
+
+```{r, echo = FALSE}
+CollegeData = CollegeData[-(which(CollegeData$Region == "Territory")), ]
+CollegeData$Main = factor(CollegeData$Main, levels = c(0,1), ordered = TRUE)
+levels(CollegeData$Main) = c("Not Main Campus", "Main Campus")
+
+CollegeData$MainDegree = factor(CollegeData$MainDegree, levels = c(2,3), ordered = TRUE)
+levels(CollegeData$MainDegree) = c("Associate's Degree",
+                                   "Bachelor's Degree")
+
+CollegeData$HighDegree = factor(CollegeData$HighDegree, levels = c(2,3,4), ordered = TRUE)
+levels(CollegeData$HighDegree) = c("Associate's Degree", "Bachelor's Degree", "Graduate Degree")
+
+CollegeData$Locale = factor(CollegeData$Locale)
+CollegeData$Region = factor(CollegeData$Region)
+```
+
+```{r, echo = FALSE}
+Bucknell = ifelse(CollegeData$Name == "Bucknell University", "Is Bucknell", "Is not Bucknell")
+```
+
+
+```{r, echo = FALSE}
+ggplot(CollegeData, aes(x = FirstGen, y = NetPrice, shape = Region, color = Bucknell, size = Bucknell)) + 
+  geom_point() + scale_color_manual(values = c("royalblue", "orange")) + 
+  theme_light() + 
+  scale_size_manual(values = c(5,2)) + xlab("Percent of First Generation Students") +
+  ylab("Average Net Price (Minus Aid) For Each College (in USD)") +
+  ggtitle("Bucknell's High Cost May Repel First Generation
+          Students From Attending")
+```
+
+**Bucknell Data Story**\
+I created this visualization on exam #2 in order to show something significant about Bucknell via data visualization. I utilized the CollegeScores dataset, which contained data on colleges in the US. In this visualization, I used the variables FirstGen (percent of first generation students), region (region of country where college is located), and NetPrice (average net price (cost minus aid)). Specifically, I tried to use NetPrice to predict FirstGen. We see a negative relationship present, with an increase in first gen students being associated with a decrease in net price. Bucknell is at the top left of this visualization, meaning it has a high tuition and low amount of first generation students. However, many other colleges of the northeast region are clustered around Bucknell, showing that Bucknell is not the only college that struggles to bring in large percentages of first generation students.
+
+```{r, echo = FALSE}
+plates$plate.size = factor(plates$plate.size)
+levels(plates$plate.size) = c("Small", "Large")
+```
+
+```{r, echo = FALSE}
+ggplot(plates, aes(x = g.consumed, y = plate.size, fill = plate.size)) +
+  geom_boxplot() + guides(fill = "none") + theme_light() +
+  scale_fill_manual(values = c("beige", "burlywood4")) +
+  ggtitle("Do Participants Given a Larger Plate Eat More Than 
+          Those Given a Smaller Plate?") +
+  xlab("Grams of Food Participant Ate") + ylab("Plate Size of Participant")
+```
+**Big Plates VS Small Plates**\
+I created this visualization on exam #1 in order to visualize the relationship between grams of food ate by an individual and the size of the individual's plate. I used the plates dataset, which collected data on a study conducted to see if people ate more food if the plate they were given was larger. My visualization aimed to answer this question. Many variables were contained in this dataset, but in order to make this visualization I used g.consumed (mass in grams of food an individual ate) and plate.size (small or large). We see much overlap between the two boxplots divided by plate size, with similar medians, IQRs, shapes, and more. Thus, we were able to conclude that the answer to the research question at hand was no, for individuals who had a large plate ate just about the same as those that had a small plate.

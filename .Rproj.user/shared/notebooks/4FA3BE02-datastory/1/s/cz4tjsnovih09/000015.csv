@@ -1,0 +1,3 @@
+"0","ggplot(NFL, aes(y = score_away, x = weather_temperature, color = Teams, shape = Teams)) +"
+"0","  geom_point() + ggtitle(""The Dolphins CAN Actually Play in the Cold Weather"") + scale_color_manual(values = c(""cyan2"", ""navyblue"")) + xlab(""Temperature in Fahreinheit"") +"
+"0","  ylab(""Score of the Away Team"") + theme_light()"

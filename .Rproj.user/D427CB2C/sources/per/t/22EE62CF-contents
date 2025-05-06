@@ -1,0 +1,15 @@
+---
+title: "NFL Infographic"
+description: |
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(distill)
+library(ggplot2)
+```
+
+![Infographic](scroll.png){width=110%}

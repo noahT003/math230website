@@ -1,0 +1,3 @@
+"0","ggplot(NFL, aes(y = total_points, x = weather_humidity, color = Bucs, shape = Bucs)) +"
+"0","  geom_point() + ggtitle(""The Humidity of Florida Does Not Affect NFL Players' Performance"") + scale_color_manual(values = c(""cyan2"", ""navyblue"")) + theme_light() +"
+"0","  xlab(""Humidity for a Given Game (in %)"") + ylab(""Total Points Scored in a Game"") + theme_light() + labs(color = ""Teams"", shape = ""Teams"")"

@@ -1,0 +1,3 @@
+"0","CollegeData = CollegeScores[complete.cases(CollegeScores), ]"
+"0","rm(CollegeScores)"
+"0","attach(CollegeData)"

@@ -1,0 +1,17 @@
+name: "math230website"
+title: "Math 230 Website"
+theme: theme.css
+description: |
+  My Website
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "NFL Infographic"
+      href: about.html
+    - text: "Course Visualizations"
+      href: visualizations.html
+    - text: "NFL Data Story"
+      href: datastory.html
+output: distill::distill_article

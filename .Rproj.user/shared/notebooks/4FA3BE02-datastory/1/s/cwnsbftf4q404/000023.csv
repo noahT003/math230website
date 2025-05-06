@@ -1,0 +1,5 @@
+"0","ggplot(NFL[!is.na(weather_wind_mph), ], aes(y = total_points[!is.na(weather_wind_mph)], x = windfactor2)) +"
+"0","  geom_pirate(aes(color = windfactor2, fill = windfactor2)) + ggtitle(""Wind (in MPH) Doesn't have a Big Affect on Total Points"") + theme_light() + scale_color_manual(values = c(""lightskyblue1"",""skyblue2"",""darkturquoise"",""darkcyan"", ""blue4"")) + "
+"0","  scale_fill_manual(values = c(""azure2"", ""gainsboro"", ""grey78"",""lightcyan3"", ""paleturquoise4"" )) + xlab(""Wind Speed in MPH for a Given Game"") + ylab(""Total Points Scored in a Game"")"
+"2","Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+Please use `linewidth` instead."

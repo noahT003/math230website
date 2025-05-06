@@ -1,0 +1,105 @@
+---
+title: "NFL Data Story"
+description: |
+  Using Elements of the Weather, Playoff Status, and the Over-Under Line, Is it Possible to Accurately Predict the Amount of Points Scored Between Both Teams? What Can We Learn About Teams in Relation to These Conditions?
+---
+
+```{r, echo = FALSE}
+NFL = read.csv("spreadspoke_scores.csv", header = TRUE)
+attach(NFL)
+library(ggplot2)
+```
+
+```{r, echo = FALSE}
+# install.packages("devtools")
+devtools::install_github("mikabr/ggpirate")
+```
+
+```{r, echo = FALSE}
+library(ggpirate)
+```
+
+```{r, echo = FALSE}
+NFL$schedule_season = factor(NFL$schedule_season)
+levels(NFL$schedule_season) = c("2012", "2013", "2014", "2015", "2016", "2017", "2018","2019", "2020", "2021", "2022", "2023", "2024")
+NFL$schedule_week = factor(NFL$schedule_week, ordered = TRUE)
+levels(NFL$schedule_week) = c("1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "Wildcard", "Divisional", "Conference", "Superbowl")
+NFL$schedule_playoff = factor(NFL$schedule_playoff)
+levels(NFL$schedule_playoff) = c("Not Playoffs",  "Playoffs")
+birds = NFL[,"team_home"] == "Philadelphia Eagles" | NFL[, "team_away"] == "Philadelphia Eagles"
+Eagles = NFL[birds, ]
+eaglesfav = ifelse(NFL$team_favorite_id == "PHI", "Eagles", "Not Eagles")
+Teams = ifelse(NFL$team_away == "Miami Dolphins", "Dolphins", "Not Dolphins")
+Bucs = ifelse(NFL$stadium == "Raymond James Stadium", "Buccaneers", "Not Buccaneers")
+stupidchiefs = ifelse(NFL$team_home == "Kansas City Chiefs" | NFL$team_away == "Kansas City Chiefs", "Chiefs", "Not Chiefs")
+```
+
+
+```{r, echo = FALSE}
+windfactor2 = cut(na.omit(weather_wind_mph), breaks = c(-1,1,4,7,10,33), labels = c("0-1","2-4","5-7","8-10","11-33"))
+```
+
+
+```{r, echo = FALSE}
+NFCeastfavor = NFL[,"team_favorite_id"] == "PHI" | NFL[,"team_favorite_id"] == "NYG" | NFL[,"team_favorite_id"] == "DAL" | NFL[,"team_favorite_id"] == "WAS" 
+NFCeastfav = NFL[NFCeastfavor, ]
+  
+NFCeastHome = NFL[,"team_home"] == "Philadelphia Eagles" | NFL[,"team_home"] == "New York Giants" | NFL[,"team_home"] == "Dallas Cowboys" | NFL[,"team_home"] == "Washington Redskins" | NFL[,"team_home"] == "Washington Football Team" | NFL[,"team_home"] == "Washington Commanders" | NFL[,"team_away"] == "Philadelphia Eagles" | NFL[,"team_away"] == "New York Giants" | NFL[,"team_away"] == "Dallas Cowboys" | NFL[,"team_away"] == "Washington Redskins" | NFL[,"team_away"] == "Washington Football Team" | NFL[,"team_away"] == "Washington Commanders"
+NFCeast = NFL[NFCeastHome, ]
+```
+
+```{r, echo = FALSE}
+ggplot(NFL, aes(y = score_away, x = weather_temperature, color = Teams, shape = Teams)) +
+  geom_point() + ggtitle("The Dolphins CAN Actually Play in the Cold Weather") + scale_color_manual(values = c("cyan2", "navyblue")) + xlab("Temperature in Fahreinheit") +
+  ylab("Score of the Away Team") + theme_light()
+```
+**Temperature Shows to Not Be a Great Predictor of Total Points**\
+Many people believe temperature has a large effect on teams, with teams performing worse in colder temperatures. However, data shows this really isn't the case. While at the coldest temperatures the total points are low, there are few games where the temperature is extremely low, and the total points increases fast. At higher temperatures, there does not seem to much of a correlation between temperature and total points, for total points ranges across low and high values. To put this data to use, lets use a specific case; in recent times, a narrative about the Miami Dolphins was that they could not play in cold weather, a prime example being their playoff game against the Kansas City Chiefs in the 2023 - 2024 season. To see if this was really true, we highlight them in the visualization above. It is worthy to note that while we are generally talking about total points, this visualization measures the points of the away team. The scatter plots for away team points and total points are extremely similar, which makes sense sense the points of the away team makes up the total points. Hence, I believe it is reasonable to generalize these results to total points as well. Getting back to the Dolphins, we see their score when they are not at home varies across all temperatures; there does not seem to be a pattern. Thus, while they do have the one bad game that was below 0 degrees, I think the Dolphins really aren't as bad as people think in cold weather, and play just as good as they do in hotter temperatures.
+
+```{r, echo = FALSE}
+ggplot(NFL, aes(y = total_points, x = weather_humidity, color = Bucs, shape = Bucs)) +
+  geom_point() + ggtitle("The Humidity of Florida Does Not Affect NFL Players' Performance") + scale_color_manual(values = c("cyan2", "navyblue")) + theme_light() +
+  xlab("Humidity for a Given Game (in %)") + ylab("Total Points Scored in a Game") + theme_light() + labs(color = "Teams", shape = "Teams")
+```
+**Humidity Shows to Be An Even Worse Predictor Than Temperature**\
+With humidity not being a great weather trait, many people also believe the higher humidity, the worse teams will do. Unfortunately, data shows this is totally wrong; there looks to be barely any correlation between humidity and total points. So it would not be right to consider humidity to be a good predictor. For another specific case, I looked at the Tampa Bay Buccaneers; more specifically, their stadium, Raymond James Stadium. Florida is not as one of the most humid states, so I wanted to see if it had an effect on total points. As you can see, it did not, for the points look to be spread around without real reason or purpose.
+
+
+```{r, echo = FALSE}
+ggplot(NFL[!is.na(weather_wind_mph), ], aes(y = total_points[!is.na(weather_wind_mph)], x = windfactor2)) +
+  geom_pirate(aes(color = windfactor2, fill = windfactor2)) + ggtitle("Wind (in MPH) Doesn't have a Big Affect on Total Points") + theme_light() + scale_color_manual(values = c("lightskyblue1","skyblue2","darkturquoise","darkcyan", "blue4")) + 
+  scale_fill_manual(values = c("azure2", "gainsboro", "grey78","lightcyan3", "paleturquoise4" )) + xlab("Wind Speed in MPH for a Given Game") + ylab("Total Points Scored in a Game")
+```
+**Wind Speed Looks to Have a Minimal Effect**\
+Wind is believed to be a large factor on scoring, with higher wind speeds believing to attribute to less accurate kicks and passes. We can see that in total points, winds doesn't have a significant impact. Although very slight, we can see that, on average, the total points in a game decrease with higher wind speeds. Additionally, in comparing the 0 - 1 MPH group and the 11 - 33 MPH group, there is a more defined difference between the other groups. Thus, I think it would be reasonable to say that higher wind speeds do *slightly* affect total scores. However, due to how slight the difference is, I think it would do a mediocre job as a predictor.
+
+
+```{r, echo = FALSE}
+ggplot(NFL, aes(y = schedule_playoff, x = total_points, fill = schedule_playoff)) +
+  geom_violin(scale = "width", alpha = 0.75) + guides(fill = "none") +
+  geom_boxplot(width = 0.25) +
+  ggtitle("Do Teams Score More in the Playoffs?") + scale_fill_manual(values = c("skyblue2", "darkcyan")) + theme_light() + xlab("Total Points Scored in a Game") +
+  ylab("Whether a Game is in the Playoffs or Not")
+```
+**Total Points Scored Don't Really Change in the Playoffs**\
+The Playoffs are the collection of games in the season where the best teams of the season face off, so I thought it would be interesting to see if there was a difference in total points compared to the regular season. Surprisingly, despite the large differences in sample size, the distributions look very similar, and have similar averages. So playoff status would also not be a great predictor of total points. It is worthy to note that the larger amount of outliers present for regular season games is most likely due to the large sample size, an example of a high outlier in recent times being the Broncos V.S. the Dolphins in this 2023 - 2024 season, with 90 total points. 
+
+```{r, echo = FALSE}
+ggplot(NFL, aes(y = total_points, x = over_under_line, color = stupidchiefs, shape = stupidchiefs)) +
+  geom_point()  + ggtitle("The Chiefs' Betting Black Magic Only Works Half the Time") +
+  geom_abline(slope = 1, color = "red") + scale_color_manual(values = c("cyan2", "navyblue")) +
+  labs(color = "Teams") + theme_light() + xlab("Over-Under Line in a Game") +
+  ylab("Total Points Scored in a Game") + labs(color = "Teams", shape = "Teams")
+```
+
+**The Over-Under Line Shows to Be An Okay Predictor of How Much Points Teams Will Get**\
+With the weather and playoff status failing us, it would only make sense to turn to the next most reliable source: the Casinos! Surprisingly, we see the over-Under line actually have some predicting power for total points. As the over-under line increases, so does the total points, and we can see this pretty consistently throughout the graph. Thus, I would say that the over-under line does an actually okay job at predicting total score. As the over-under line is a bet that is literally trying to predict the total points, this makes sense. The red line on the graph represents the cut off for the line: the points below the red line were below the over-under line, and the points above the red line were above the over-under line. It is nearly a 50-50 split. In this specific case of the Chiefs, many, including me, believe that they have acquired some incredible luck or some sort of black magic to win games. Others believe this extends to gambling, and I personally remember hearing many say that they bet on the Chiefs to win this past Super Bowl (59) simply because "Vegas wants them to win." However, according to this visualization, their black magic, at least for bets of the over-under line, aren't so magical. As said above, games with the Chiefs only had the total points be under the over-under line half the time, and above it the other half. Thus, their betting black magic is more akin to flipping a coin overall.
+
+
+<iframe src="https://abby-flynt.shinyapps.io/thomas/" class="l-screen-inset shaded" height="700px"></iframe>
+
+**Total Points and the Over-Under Line Have Barely Fluctuated Over Time, and Don't Look Like they Will Anytime Soon**\
+Finally, I wanted to take a look at total points and the over-under line in order to compare the two throughout the years. We can see that in each season, the distribution of the total points and the over-under line have been similar most of the time. For example, if the distribution of total points for a season were skewed right, the distribution of the over-under line for a season was usually also skewed right. However, for the overall distributions since 2012, we can see their shapes are approximately normal. This leads to the most important point: we can see that over time, except for extreme values, the total points and over-under line fluctuated around the same values. Hence, while the game has changed over time, we don't really score less or score more than we did a decade ago, and the over-under line also reflects this. While we unfortunately have found no significant ways to surely predict total points, with the trends in recent years, we can be certain that total points and scoring will stay the same for the foreseeable future.
+
+
+

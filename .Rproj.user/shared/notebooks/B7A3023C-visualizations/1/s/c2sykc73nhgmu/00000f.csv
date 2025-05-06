@@ -1,0 +1,2 @@
+"0","plates$plate.size = factor(plates$plate.size)"
+"0","levels(plates$plate.size) = c(""Small"", ""Large"")"

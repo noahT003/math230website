@@ -1,0 +1,12 @@
+"0","library(Lock5Data)"
+"0","library(ggplot2)"
+"0","library(ggrain)"
+"2","Registered S3 methods overwritten by 'ggpp':
+  method                  from   
+  heightDetails.titleGrob ggplot2
+  widthDetails.titleGrob  ggplot2
+"
+"0","data(StudentSurvey)"
+"0","attach(StudentSurvey)"
+"0","data(CollegeScores)"
+"0","load(""plate.sizes.RData"")"

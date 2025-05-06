@@ -1,0 +1,7 @@
+"0","ggplot(CollegeData, aes(x = FirstGen, y = NetPrice, shape = Region, color = Bucknell, size = Bucknell)) + "
+"0","  geom_point() + scale_color_manual(values = c(""royalblue"", ""orange"")) + "
+"0","  theme_light() + "
+"0","  scale_size_manual(values = c(5,2)) + xlab(""Percent of First Generation Students"") +"
+"0","  ylab(""Average Net Price (Minus Aid) For Each College (in USD)"") +"
+"0","  ggtitle(""Bucknell's High Cost May Repel First Generation"
+"0","          Students From Attending"")"

@@ -1,0 +1,5 @@
+"0","ggplot(NFL, aes(y = schedule_playoff, x = total_points, fill = schedule_playoff)) +"
+"0","  geom_violin(scale = ""width"", alpha = 0.75) + guides(fill = ""none"") +"
+"0","  geom_boxplot(width = 0.25) +"
+"0","  ggtitle(""Do Teams Score More in the Playoffs?"") + scale_fill_manual(values = c(""skyblue2"", ""darkcyan"")) + theme_light() + xlab(""Total Points Scored in a Game"") +"
+"0","  ylab(""Whether a Game is in the Playoffs or Not"")"

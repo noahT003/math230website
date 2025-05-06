@@ -1,0 +1,9 @@
+"0","library(readr)"
+"0","CASchools = read.csv(""CASchools.csv"", header = TRUE)"
+"0","attach(CASchools)"
+"2","The following objects are masked from CASchools (pos = 7):
+
+    calworks, computer, county, district, english, expenditure, grades, income,
+    lunch, math, read, rownames, school, students, teachers
+
+"

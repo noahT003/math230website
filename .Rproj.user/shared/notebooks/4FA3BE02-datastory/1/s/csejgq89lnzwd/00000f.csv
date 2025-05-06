@@ -1,0 +1,9 @@
+"0","# install.packages(""devtools"")"
+"0","devtools::install_github(""mikabr/ggpirate"")"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"2","Skipping install of 'ggpirate' from a github remote, the SHA1 (83528923) has not changed since last install.
+  Use `force = TRUE` to force installation
+"

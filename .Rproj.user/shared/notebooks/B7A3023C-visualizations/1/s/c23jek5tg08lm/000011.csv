@@ -1,0 +1,6 @@
+"0","ggplot(plates, aes(x = g.consumed, y = plate.size, fill = plate.size)) +"
+"0","  geom_boxplot() + guides(fill = ""none"") + theme_light() +"
+"0","  scale_fill_manual(values = c(""beige"", ""burlywood4"")) +"
+"0","  ggtitle(""Do Participants Given a Larger Plate Eat More Than "
+"0","          Those Given a Smaller Plate?"") +"
+"0","  xlab(""Grams of Food Participant Ate"") + ylab(""Plate Size of Participant"")"

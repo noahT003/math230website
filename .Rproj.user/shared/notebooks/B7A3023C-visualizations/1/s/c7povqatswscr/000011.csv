@@ -1,0 +1,1 @@
+"0","Bucknell = ifelse(CollegeData$Name == ""Bucknell University"", ""Is Bucknell"", ""Is not Bucknell"")"
